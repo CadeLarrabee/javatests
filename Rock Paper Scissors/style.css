@@ -1,0 +1,33 @@
+body{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  min-height:100vh;
+}
+
+.tutorialText, .playerScore, .playerScoreWrapper, .playerActions{
+  font-size:48px;
+}
+
+.playerButtons{
+  font-size:48px;
+  height: 100px;
+  width: 400px;
+  padding:200px;
+  display:flex;
+  justify-content:space-between;
+}
+
+.rock,.scissors,.paper{
+  background-color:#f6c338;
+  color:#070906;
+  border-radius: 8px;
+  border-style: solid;
+  border-color: #070906;
+  height:40px;
+  width:120px;
+  font-size:18px;
+  font-weight: bold;
+  border: none;
+}
