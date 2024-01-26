@@ -1,7 +1,26 @@
+const startButton = document.querySelector(".startButton");
+
+startButton.addEventListener("click", function () {
+  // Handle the click event
+  game.playOneGame();
+  game.gamesPlayed++;
+});
+
 function Game() {
+  let gamesPlayed = 0;
   function playAGame() {
+    //remove a board that might exist
+    removeGameBoard();
+
     const gb = gameBoard();
     gb.generateGameBoard();
+  }
+
+  function removeGameBoard() {
+    const existingGameboard = document.querySelector(".gameboard");
+    if (existingGameboard) {
+      existingGameboard.remove();
+    }
   }
 
   return {
@@ -16,6 +35,7 @@ function gameBoard() {
   gameboard.className = "gameboard";
   gameboard.buttons = [];
   gameboard.turn = 1;
+  gameboard.plays = 1;
 
   function generateArray(x, y) {
     gameboard.rowlength = x;
@@ -74,14 +94,14 @@ function gameBoard() {
         clickedButton.textContent = "[O]";
         clickedButton.HasBeenEdited = true;
       }
-    }
 
-    checkVictoryCondition();
+      checkVictoryCondition();
 
-    if (gameboard.turn == 2) {
-      gameboard.turn = 1;
-    } else {
-      gameboard.turn = 2;
+      if (gameboard.turn == 2) {
+        gameboard.turn = 1;
+      } else {
+        gameboard.turn = 2;
+      }
     }
   }
 
@@ -92,54 +112,90 @@ function gameBoard() {
 
       if (rowValues.every((value) => value === "[X]")) {
         console.log("Player X wins in row " + i);
+        playerWon("X");
         // Handle victory condition for Player X
       } else if (rowValues.every((value) => value === "[O]")) {
         console.log("Player O wins in row " + i);
-        // Handle victory condition for Player O
+        playerWon("O");
       }
 
       let colValues = gameboard.buttons.map((column) => column[i].textContent);
 
       if (colValues.every((value) => value === "[X]")) {
         console.log("Player X wins in column " + i);
+        playerWon("X");
         // Handle victory condition for Player X
       } else if (colValues.every((value) => value === "[O]")) {
         console.log("Player O wins in column " + i);
+        playerWon("O");
         // Handle victory condition for Player O
       }
+    }
 
-      //Handle diagonals for player 1
-      if (i == 0 && gameboard.turn == 1) {
-        if (
-          gameboard.buttons[0][0].textContent == "[X]" &&
-          gameboard.buttons[1][1].textContent == "[X]" &&
-          gameboard.buttons[2][2].textContent == "[X]"
-        ) {
-          console.log("Player X wins by diagonal");
-        } else if (
-          gameboard.buttons[0][2].textContent == "[X]" &&
-          gameboard.buttons[1][1].textContent == "[X]" &&
-          gameboard.buttons[2][0].textContent == "[X]"
-        ) {
-          console.log("Player X wins by diagonal");
-        }
+    checkDiagonalWin();
+
+    gameboard.plays++;
+    if (gameboard.plays > gameboard.collength * gameboard.rowlength) {
+      playerWon("No one");
+    }
+  }
+
+  function checkDiagonalWin() {
+    console.log(gameboard.turn);
+    if (gameboard.turn == 2) {
+      if (
+        gameboard.buttons[0][0].textContent == "[O]" &&
+        gameboard.buttons[1][1].textContent == "[O]" &&
+        gameboard.buttons[2][2].textContent == "[O]"
+      ) {
+        playerWon("O");
+      } else if (
+        gameboard.buttons[0][2].textContent == "[O]" &&
+        gameboard.buttons[1][1].textContent == "[O]" &&
+        gameboard.buttons[2][0].textContent == "[O]"
+      ) {
+        playerWon("O");
       }
+    }
+    if (gameboard.turn == 1) {
+      if (
+        gameboard.buttons[0][0].textContent == "[X]" &&
+        gameboard.buttons[1][1].textContent == "[X]" &&
+        gameboard.buttons[2][2].textContent == "[X]"
+      ) {
+        playerWon("X");
+      } else if (
+        gameboard.buttons[0][2].textContent == "[X]" &&
+        gameboard.buttons[1][1].textContent == "[X]" &&
+        gameboard.buttons[2][0].textContent == "[X]"
+      ) {
+        playerWon("X");
+      }
+    }
+  }
 
-      //Check diagonals for player 2
-      if (i == 0 && gameboard.turn == 2) {
-        if (
-          gameboard.buttons[0][0].textContent == "[O]" &&
-          gameboard.buttons[1][1].textContent == "[O]" &&
-          gameboard.buttons[2][2].textContent == "[O]"
-        ) {
-          console.log("Player O wins by diagonal");
-        } else if (
-          gameboard.buttons[0][2].textContent == "[O]" &&
-          gameboard.buttons[1][1].textContent == "[O]" &&
-          gameboard.buttons[2][0].textContent == "[O]"
-        ) {
-          console.log("Player O wins by diagonal");
-        }
+  function playerWon(player) {
+    emptyBoard();
+
+    let oldWinText = document.querySelector(".winText");
+    if (oldWinText) {
+      oldWinText.className = "old";
+    }
+
+    let winText = document.createElement("div");
+    winText.textContent = player + " Won the game!";
+    winText.className = "winText";
+
+    //Insert the next text before the old text
+    document.body.insertBefore(winText, oldWinText);
+  }
+
+  function emptyBoard() {
+    for (let i = 0; i < gameboard.collength; i++) {
+      for (let j = 0; j < gameboard.rowlength; j++) {
+        gameboard.buttons[i][j].textContent = "[ ]";
+        gameboard.buttons[i][j].HasBeenEdited = false;
+        gameboard.plays = 1;
       }
     }
   }
@@ -154,4 +210,3 @@ function gameBoard() {
 function Player() {}
 
 const game = Game();
-game.playOneGame();
