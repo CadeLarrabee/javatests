@@ -26,22 +26,24 @@ function Book(Name, Author, Pages, Read) {
   };
 }
 
-function Library() {
-  this.books = [];
+class Library {
+  constructor() {
+    this.books = [];
+  }
 
-  this.AddBook = function (Book) {
+  AddBook(Book) {
     this.books.push(Book);
-  };
-  this.AddAllBooksToDom = function () {
+  }
+  AddAllBooksToDom() {
     this.books.forEach(function (book, index) {
       let div = document.createElement("div");
       div.id = "book " + index;
       div.innerHTML = book.Name;
       document.body.appendChild(div);
     });
-  };
+  }
 
-  this.GenerateAllTable = function () {
+  GenerateAllTable() {
     //This function generates a table with all available books in array.
     //It then generate
     var tableHtml = "<table id='booktable' border='1'>";
@@ -77,27 +79,28 @@ function Library() {
     container.addEventListener("click", function (event) {
       if (event.target.classList.contains("remove")) {
         // Call a function to handle the remove button click
-        handleRemoveButtonClick(event.target);
+        library.handleRemoveButtonClick(event.target);
       }
       if (event.target.classList.contains("read")) {
         // Call a function to handle the remove button click
-        handleReadButtonClick(event.target);
+        library.handleReadButtonClick(event.target);
       }
     });
-  };
+  }
 
-  function handleRemoveButtonClick(button) {
+  handleRemoveButtonClick(button) {
     // Get the corresponding row and remove it
     let row = button.closest("tr");
     if (row) {
       row.remove();
     }
   }
-  function handleReadButtonClick(button) {
+  handleReadButtonClick(button) {
     let row = button.closest("tr");
-    libId = row.rowIndex - 1;
+    let libId = row.rowIndex - 1;
 
     library.books[libId].Read = !library.books[libId].Read;
+    console.log(library.books[libId].Read);
 
     let readCell = row.querySelector(".Read");
     console.log(readCell);
@@ -107,7 +110,7 @@ function Library() {
     }
   }
 
-  this.GenerateOneTableEntry = function (book) {
+  GenerateOneTableEntry = function (book) {
     let table = document.getElementById("booktable");
 
     // Create row element
