@@ -1,0 +1,6 @@
+form:valid {
+  background-color: green;
+}
+form:invalid {
+  background-color: red;
+}
