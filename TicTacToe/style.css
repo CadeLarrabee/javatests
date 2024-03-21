@@ -1,0 +1,28 @@
+body {
+  background-color: slategray;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+.cell {
+  height: 75px;
+  width: 75px;
+  background-color: lightgreen;
+}
+
+.startButton {
+  margin-bottom: 30px;
+  height: 85px;
+  width: 225px;
+  font-size: 30px;
+}
+.winText {
+  font-size: 48px;
+}
+.old {
+  font-size: 28px;
+  opacity: 50%;
+}

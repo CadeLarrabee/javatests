@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="formWrapper">
+      <form id="registrationForm" action="#" method="POST">
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            pattern=".+@gmail\.com"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="country">Country:</label>
+          <select class="countrySelect" name="country" required>
+            <option value="">Select a country</option>
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="UK">United Kingdom</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="zipcode">Zip Code:</label>
+          <input
+            type="text"
+            id="zipcode"
+            name="zipcode"
+            pattern="[0-9]{5}"
+            max-length="5"
+            min-length="5"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required />
+        </div>
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password:</label>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            required
+          />
+        </div>
+        <button type="submit" class="submitBtn">Submit</button>
+        <div id="passwordError"></div>
+      </form>
+    </div>
+  </body>
+</html>
